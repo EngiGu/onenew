@@ -1,0 +1,117 @@
+#!/bin/bash
+
+wget http://sourceforge.net/projects/denyhosts/files/denyhosts/2.6/DenyHosts-2.6.tar.gz
+#下载软件
+
+tar -zxvf DenyHosts-2.6.tar.gz
+#解压
+
+mv DenyHosts-2.6 denyhost
+#为了方便改个名
+
+cd denyhost/
+#进入目录
+
+yum install python -y
+#安装python
+
+python setup.py install
+#安装denyhost,脚本
+
+cd /usr/share/denyhosts/
+#进入配置目录
+
+cp daemon-control-dist daemon-control
+#为了方便改变配置文件名称
+
+cp denyhosts.cfg-dist denyhosts.cfg
+#修改服务文件名称
+
+chown root daemon-control
+chmod 700 daemon-control
+#提高安全级别，修改权限
+
+ln -s /usr/share/denyhosts/daemon-control /etc/init.d/denyhosts
+#创建启动服务连接
+
+chkconfig denyhosts on
+#添加启动项
+
+cp denyhosts.cfg denyhosts.cfg.bak
+#备份配置文件，为修改配置做准备
+
+cat /workspace/denyhost.txt &gt; /usr/share/denyhosts/denyhosts.cfg
+#将配置文件内容导入配置文件（我的配置文件安装之前已经配置好了！）
+
+/etc/init.d/denyhosts start
+#启动服务
+
+echo install succeed!
+
+2.配置文件内容
+
+
+cat /workspace/denyhost.txt &gt; /usr/share/denyhosts/denyhosts.cfg
+###########################2##################################
+
+[root@107 workspace]# more denyhost.txt
+SECURE_LOG = /var/log/secure
+#ssh日志文件
+
+HOSTS_DENY = /etc/hosts.deny
+#将阻止IP写入到hosts.deny
+
+PURGE_DENY = 5m
+#过多久后清除已经禁止的，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟
+
+BLOCK_SERVICE = sshd
+#阻止服务名
+
+DENY_THRESHOLD_INVALID = 5
+#允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.
+
+DENY_THRESHOLD_VALID = 5
+#允许普通用户登录失败的次数
+
+DENY_THRESHOLD_ROOT = 5
+#允许root登录失败的次数
+
+DENY_THRESHOLD_RESTRICTED = 1
+#设定 deny host 写入到该资料夹
+
+WORK_DIR = /usr/share/denyhosts/data
+#将deny的host或ip纪录到Work_dir中
+SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS = YES
+
+HOSTNAME_LOOKUP=YES
+#是否做域名反解
+
+LOCK_FILE = /var/lock/subsys/denyhosts
+#将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。
+
+ADMIN_EMAIL = denyhosts@163.com
+#设置管理员邮件地址
+SMTP_HOST = localhost
+SMTP_PORT = 25
+SMTP_FROM = DenyHosts <nobody@localhost>
+SMTP_SUBJECT = DenyHosts Report
+
+AGE_RESET_VALID=1d
+#有效用户登录失败计数归零的时间
+
+AGE_RESET_ROOT=1d
+#root用户登录失败计数归零的时间
+
+AGE_RESET_RESTRICTED=5d
+#用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)
+
+AGE_RESET_INVALID=10d
+#无效用户登录失败计数归零的时间
+
+DAEMON_LOG = /var/log/denyhosts
+#自己的日志文件
+
+DAEMON_SLEEP = 30s
+
+DAEMON_PURGE = 5m
+#该项与PURGE_DENY 设置成一样，也是清除hosts.deniedssh 用户的时间
