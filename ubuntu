@@ -35,3 +35,4 @@ deb-src http://mirrors.ustc.edu.cn/ubuntu/ $RELEASE-backports main restricted un
 
 echo "Change sources.list sucessfully"
 sudo apt-get update
+echo "替换成功！"
