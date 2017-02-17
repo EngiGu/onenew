@@ -32,4 +32,5 @@ deb-src http://mirrors.ustc.edu.cn/ubuntu/ $RELEASE-security main restricted uni
 deb-src http://mirrors.ustc.edu.cn/ubuntu/ $RELEASE-updates main restricted universe multiverse
 deb-src http://mirrors.ustc.edu.cn/ubuntu/ $RELEASE-proposed main restricted universe multiverse
 deb-src http://mirrors.ustc.edu.cn/ubuntu/ $RELEASE-backports main restricted universe multiverse" > $APT_DIR/sources.list
+sudo apt-get update
 echo "Change sources.list sucessfully"
