@@ -138,7 +138,7 @@ function pre_install(){
 # Download files
 function download_files(){
     # Download libsodium file
-    if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz http://vpn.ximcx.cn/SSR/libsodium-1.0.10.tar.gz; then
+    if ! wget --no-check-certificate -O libsodium-1.0.10.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.10/libsodium-1.0.10.tar.gz; then
         echo "Failed to download libsodium file!"
         exit 1
     fi
@@ -212,7 +212,7 @@ function config_shadowsocks(){
     "password": "${shadowsockspwd}",
     "timeout": 120,
     "udp_timeout": 60,
-    "method": "chacha20",
+    "method": "rc4-md5",
     "protocol": "auth_sha1_compatible",
     "protocol_param": "",
     "obfs": "http_simple_compatible",
@@ -261,7 +261,7 @@ function install_ss(){
         echo -e "Local Port: \033[41;37m 1080 \033[0m"
         echo -e "Protocol: \033[41;37m auth_sha1 \033[0m"
         echo -e "obfs: \033[41;37m http_simple \033[0m"
-        echo -e "Encryption Method: \033[41;37m chacha20 \033[0m"
+        echo -e "Encryption Method: \033[41;37m rc4-md5 \033[0m"
         echo
         echo "Welcome to visit:https://shadowsocks.be/9.html"
         echo "If you want to change protocol & obfs, reference URL:"
