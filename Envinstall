@@ -1,0 +1,4 @@
+#! /bin/bash
+yum -y install wget
+yum install -y unzip zip
+yum -y install gcc automake autoconf libtool make
